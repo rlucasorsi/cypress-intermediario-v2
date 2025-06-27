@@ -38,6 +38,6 @@ Para cada exercício, tem um vídeo meu resolvedo-o, além de trechos de código
 
 Ao final do curso, deixo referências para vários outros conteúdos de Cypress criados nos canais da TAT (Blog e YouTube), como fontes de estudo auxiliares ao curso.
 
-___
+---
 
 Agora que você já conhece a estrutura do curso, vá para a seção de [pré-requisitos](./_pre-requirements_.md).

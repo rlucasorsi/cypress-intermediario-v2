@@ -21,7 +21,7 @@ Além disso, garanta que os seguintes sistemas estejam instalados em seu computa
 >
 > **Obs. 4:** Deixei links para os instaladores na lista de requisitos acima, caso não os tenha instalados ainda.
 
-___
+---
 
 Legal, os pre-requisitos estão prontos. ☑️
 
