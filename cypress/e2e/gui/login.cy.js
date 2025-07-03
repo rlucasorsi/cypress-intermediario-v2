@@ -1,7 +1,12 @@
 describe('Login', () => {
   
-  it('Login com sucesso', () => {
-    cy.login();
-    cy.get('[data-qa-selector="welcome_title_content"]').should('be.visible');
+  it('successfully', () => {
+    const user = Cypress.env('user_name')
+    const password = Cypress.env('user_password')
+    const options = {cacheSession: false}
+
+    cy.login(user, password, options);
+
+    cy.get('.qa-user-avatar').should('be.visible');
   });
 });
