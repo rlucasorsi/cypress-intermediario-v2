@@ -5,11 +5,12 @@ describe('Create Projects', () => {
     const user = Cypress.env('user_name');
     const password = Cypress.env('user_password');
     const options = { cacheSession: true };
-    
+
+    cy.api_deleteProjects();
     cy.login(user, password, options);
   });
 
-  it.only('Successfully', () => {
+  it('Successfully', () => {
     const project = {
       name: `project-${faker.datatype.uuid()}`,
       description: faker.random.words(5),

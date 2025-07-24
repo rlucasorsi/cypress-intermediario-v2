@@ -10,6 +10,7 @@ describe('Create issue', () => {
     },
   };
   beforeEach(() => {
+    cy.api_deleteProjects();
     cy.login();
     cy.gui_createProject(issue.project);
   });
