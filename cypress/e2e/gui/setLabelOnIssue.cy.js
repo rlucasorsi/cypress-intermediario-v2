@@ -15,15 +15,22 @@ describe('Set label on issue', () => {
     color: '#ffaabb',
   };
 
+  let userName, userPassword;
+  before(() => {
+    cy.env(['userName', 'userPassword']).then(({ userName: user, userPassword: password }) => {
+      userName = user;
+      userPassword = password;
+    });
+  });
+
   beforeEach(() => {
-      cy.api_deleteProjects(),
-      cy.login(),
-      cy.api_createIssue(issue)
-      .then(response => {
-        cy.api_createLabel(response.body.project_id, label)
-        cy.visit(`${Cypress.env('user_name')}/${issue.project.name}/issues/${response.body.iid}`)
-      })
-  })
+    cy.api_deleteProjects();
+    cy.login();
+    cy.api_createIssue(issue).then((response) => {
+      cy.api_createLabel(response.body.project_id, label);
+      cy.visit(`${userName}/${issue.project.name}/issues/${response.body.iid}`);
+    });
+  });
 
   it('successfully', () => {
     cy.gui_setLabelOnIssue(label);

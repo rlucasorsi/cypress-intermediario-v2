@@ -1,14 +1,12 @@
-Cypress.Commands.add(
-  'login',
-  (
-    user = Cypress.env('user_name'),
-    password = Cypress.env('user_password'),
-    { cacheSession = true } = {}
-  ) => {
-    const login = () => {
+Cypress.Commands.add('login', (user = null, password = null, { cacheSession = true } = {}) => {
+  cy.env(['userName', 'userPassword']).then(({ userName, userPassword }) => {
+    const loginUser = user ?? userName;
+    const loginPassword = password ?? userPassword;
+
+    const performLogin = () => {
       cy.visit('/users/sign_in');
-      cy.get('[data-qa-selector="login_field"]').type(user);
-      cy.get('[data-qa-selector="password_field"]').type(password, { log: false });
+      cy.get('[data-qa-selector="login_field"]').type(loginUser);
+      cy.get('[data-qa-selector="password_field"]').type(loginPassword, { log: false });
       cy.get('[data-qa-selector="sign_in_button"]').click();
     };
 
@@ -23,12 +21,12 @@ Cypress.Commands.add(
     };
 
     if (cacheSession) {
-      cy.session(user, login, options);
+      cy.session(loginUser, performLogin, options);
     } else {
-      login();
+      performLogin();
     }
-  }
-);
+  });
+});
 
 Cypress.Commands.add('logout', () => {
   cy.get('[data-qa-selector="user_menu"]').click();
@@ -45,20 +43,22 @@ Cypress.Commands.add('gui_createProject', (project) => {
 });
 
 Cypress.Commands.add('gui_createIssue', (issue) => {
-  cy.visit(`/${Cypress.env('user_name')}/${issue.project.name}/issues/new`);
+  cy.env(['userName']).then(({ userName }) => {
+    cy.visit(`/${userName}/${issue.project.name}/issues/new`);
 
-  cy.get('#issue_title').type(issue.title);
-  cy.get('#issue_description').type(issue.description);
-  cy.contains('Submit issue').click();
+    cy.get('#issue_title').type(issue.title);
+    cy.get('#issue_description').type(issue.description);
+    cy.contains('Submit issue').click();
+  });
 });
 
-Cypress.Commands.add('gui_setLabelOnIssue', label => {
-  cy.get('.qa-edit-link-labels').click()
-  cy.contains(label.name).click()
-  cy.get('body').click()
-})
+Cypress.Commands.add('gui_setLabelOnIssue', (label) => {
+  cy.get('.qa-edit-link-labels').click();
+  cy.contains(label.name).click();
+  cy.get('body').click();
+});
 
-Cypress.Commands.add('gui_setMilestoneOnIssue', milestone => {
-   cy.get('.block.milestone .edit-link').click()
-   cy.contains(milestone.title).click()
-})
+Cypress.Commands.add('gui_setMilestoneOnIssue', (milestone) => {
+  cy.get('.block.milestone .edit-link').click();
+  cy.contains(milestone.title).click();
+});

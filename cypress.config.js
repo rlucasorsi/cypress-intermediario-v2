@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  allowCypressEnv: false,
   e2e: {
     baseUrl: 'http://localhost',
     env: {
@@ -8,7 +9,7 @@ module.exports = defineConfig({
       requestMode: true,
       snapshotOnly: true,
     },
-    experimentalRunAllSpecs: true,
+    experimentalStudio: true,
   },
   fixturesFolder: false,
   video: false,

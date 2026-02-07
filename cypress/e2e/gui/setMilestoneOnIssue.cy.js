@@ -14,19 +14,25 @@ describe('Set a milestone on issue', () => {
     title: `milestone-${faker.random.word()}`,
   };
 
-  beforeEach(() => {
-    cy.api_deleteProjects()
-    cy.login()
-    cy.api_createIssue(issue).then((response) => {
-        cy.api_createMilestone(response.body.project_id, milestone)
-        cy.visit(`${Cypress.env('user_name')}/${issue.project.name}/issues/${response.body.iid}`)
+  let userName;
+  before(() => {
+    cy.env(['userName']).then(({ userName: user }) => {
+      userName = user;
+    });
+  });
 
-    })
-  })
+  beforeEach(() => {
+    cy.api_deleteProjects();
+    cy.login();
+    cy.api_createIssue(issue).then((response) => {
+      cy.api_createMilestone(response.body.project_id, milestone);
+      cy.visit(`${userName}/${issue.project.name}/issues/${response.body.iid}`);
+    });
+  });
 
   it('Successfully', () => {
-    cy.gui_setMilestoneOnIssue(milestone)
+    cy.gui_setMilestoneOnIssue(milestone);
 
     cy.get('.block.milestone').should('contain', milestone.title);
-  })
+  });
 });
